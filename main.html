@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dietary Helper</title>
+
+
+  <!-- Bootstrap + Icons + Google Fonts -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+
+  <style>
+    :root {
+      --bg-gradient-light: linear-gradient(135deg, #fdfcfb 0%, #e2d1c3 100%);
+      --card-bg-light: rgba(255, 255, 255, 0.75);
+      --text-color-light: #2c3e50;
+
+
+      --bg-gradient-dark: linear-gradient(135deg, #0f0f1b, #1a1a2e);
+      --card-bg-dark: rgba(25, 25, 45, 0.9);
+      --text-color-dark: #e0e0ff;
+
+
+      --primary-accent: #7c4dff;
+      --highlight: #4fc3f7;
+    }
+
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-gradient-light);
+      color: var(--text-color-light);
+      transition: all 0.4s ease;
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+
+    .dark-mode {
+      background: var(--bg-gradient-dark);
+      color: var(--text-color-dark);
+    }
+
+
+    .card-glass {
+      background: var(--card-bg-light);
+      backdrop-filter: blur(18px);
+      border-radius: 2rem;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+      padding: 3rem;
+      max-width: 520px;
+      width: 100%;
+      animation: fadeIn 0.8s ease;
+      transition: all 0.4s ease;
+    }
+
+
+    .dark-mode .card-glass {
+      background: var(--card-bg-dark);
+      box-shadow: 0 0 30px rgba(124, 77, 255, 0.25);
+    }
+
+
+    .card-title {
+      font-weight: 700;
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+
+    .form-label i {
+      color: var(--primary-accent);
+      margin-right: 0.4rem;
+    }
+
+
+    .form-select, .form-check-input {
+      border-radius: 0.8rem;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      transition: 0.3s;
+    }
+
+
+    .dark-mode .form-select {
+      background-color: #1f1f2e;
+      color: #e0e0ff;
+      border: 1px solid #444;
+    }
+
+
+    .form-select:focus {
+      border-color: var(--primary-accent);
+      box-shadow: 0 0 0 0.25rem rgba(124, 77, 255, 0.25);
+    }
+
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-accent), var(--highlight));
+      border: none;
+      border-radius: 1rem;
+      padding: 0.75rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      color: white;
+    }
+
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 16px rgba(124, 77, 255, 0.4);
+    }
+
+
+    .recipe-box, .tip-box {
+      background-color: rgba(79, 195, 247, 0.15);
+      padding: 1rem 1.2rem;
+      border-left: 4px solid var(--highlight);
+      border-radius: 1rem;
+      margin-top: 1.5rem;
+      transition: background 0.4s ease;
+    }
+
+
+    .dark-mode .recipe-box, .dark-mode .tip-box {
+      background-color: rgba(124, 77, 255, 0.1);
+      border-left: 4px solid var(--primary-accent);
+    }
+
+
+    .tip-box h5 {
+      color: var(--primary-accent);
+    }
+
+
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+
+    .form-check-input:checked {
+      background-color: var(--primary-accent);
+      border-color: var(--primary-accent);
+    }
+
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+  <div class="card-glass">
+    <h1 class="card-title">🍽️ Diet Helper</h1>
+
+
+    <form id="recipe-form" class="mt-4">
+      <div class="mb-4">
+        <label for="dietInput" class="form-label">
+          <i class="bi bi-heart-pulse-fill"></i> Dietary Restriction
+        </label>
+        <select class="form-select" id="dietInput" name="dietaryRestriction" required>
+          <option value="" disabled selected>Select an option</option>
+          <option value="vegan">🥬 Vegan</option>
+          <option value="vegetarian">🥗 Vegetarian</option>
+          <option value="gluten free">🌾❌ Gluten Free</option>
+          <option value="nut free">🌰🚫 Nut Free</option>
+          <option value="dairy free">🥛🚫 Dairy Free</option>
+        </select>
+      </div>
+
+
+      <div class="mb-4">
+        <label for="flavorInput" class="form-label">
+          <i class="bi bi-emoji-smile-fill"></i> Flavor Preference
+        </label>
+        <select class="form-select" id="flavorInput" name="flavorPreference" required>
+          <option value="" disabled selected>Select your flavor</option>
+          <option value="spicy">🌶️ Spicy</option>
+          <option value="sweet">🍭 Sweet</option>
+          <option value="savory">🍜 Savory</option>
+          <option value="tangy">🍋 Tangy</option>
+          <option value="bland">🍞 Bland</option>
+        </select>
+      </div>
+
+
+      <button type="submit" class="btn btn-primary w-100">✨ Generate Recipe</button>
+    </form>
+
+
+    <div class="recipe-box" id="recipe-box" style="display: none;">
+      <h5 class="text-success">✅ Suggested Recipe:</h5>
+      <p id="recipe-details"></p>
+    </div>
+
+
+    <div class="tip-box" id="tip-box" style="display: none;">
+      <h5>🧘 Mental Health Tip:</h5>
+      <p id="mental-health-tip"></p>
+    </div>
+
+
+    <div class="theme-toggle form-check form-switch">
+      <input class="form-check-input" type="checkbox" id="darkSwitch">
+      <label class="form-check-label ms-2" for="darkSwitch">
+        <i class="bi bi-moon-stars-fill"></i> Dark Mode
+      </label>
+    </div>
+  </div>
+
+
+  <script>
+    const recipes = [
+  // Vegan Recipes
+  {
+    title: "Vegan Spicy Stir Fry",
+    ingredients: ["Tofu", "Broccoli", "Carrots", "Chili", "Garlic"],
+    instructions: "Stir fry all ingredients with chili for spice.",
+    restriction: "vegan",
+    flavor: "spicy",
+    mentalHealth: "Rich in vitamin B6 and antioxidants to support stress relief and mental focus."
+  },
+  {
+    title: "Vegan Sweet Chickpea Salad",
+    ingredients: ["Chickpeas", "Tomatoes", "Olive Oil", "Maple Syrup"],
+    instructions: "Mix all ingredients with a sweet maple dressing.",
+    restriction: "vegan",
+    flavor: "sweet",
+    mentalHealth: "Chickpeas are high in magnesium and fiber, aiding relaxation and mood balance."
+  },
+  {
+    title: "Vegan Tangy Lemon Soup",
+    ingredients: ["Lemon", "Garlic", "Tofu", "Cucumber"],
+    instructions: "Cook tofu and veggies, add lemon juice to bring tangy flavor.",
+    restriction: "vegan",
+    flavor: "tangy",
+    mentalHealth: "Lemon boosts vitamin C, which helps reduce stress hormones."
+  },
+  {
+    title: "Vegan Bland Rice",
+    ingredients: ["Rice", "Olive Oil", "Salt"],
+    instructions: "Cook rice with olive oil and salt for a bland flavor.",
+    restriction: "vegan",
+    flavor: "bland",
+    mentalHealth: "A simple dish to calm the digestive system and support mental ease."
+  },
+  {
+    title: "Vegan Savory Quinoa Salad",
+    ingredients: ["Quinoa", "Spinach", "Olive Oil", "Garlic"],
+    instructions: "Mix quinoa with savory olive oil and garlic.",
+    restriction: "vegan",
+    flavor: "savory",
+    mentalHealth: "Quinoa and spinach provide iron and magnesium for brain health and energy regulation."
+  },
+
+
+  // Vegetarian Recipes
+  {
+    title: "Vegetarian Spicy Tofu Stir Fry",
+    ingredients: ["Tofu", "Bell Peppers", "Carrots", "Chili", "Garlic"],
+    instructions: "Stir fry tofu and vegetables with chili for a spicy kick.",
+    restriction: "vegetarian",
+    flavor: "spicy",
+    mentalHealth: "Spicy foods release endorphins, improving mood and reducing tension."
+  },
+  {
+    title: "Vegetarian Sweet Potato Salad",
+    ingredients: ["Sweet Potatoes", "Spinach", "Balsamic", "Honey"],
+    instructions: "Roast sweet potatoes and toss with balsamic and honey.",
+    restriction: "vegetarian",
+    flavor: "sweet",
+    mentalHealth: "Sweet potatoes are complex carbs that stabilize blood sugar and enhance calmness."
+  },
+  {
+    title: "Vegetarian Tangy Tomato Soup",
+    ingredients: ["Tomatoes", "Garlic", "Onions", "Cilantro"],
+    instructions: "Simmer tomatoes and garlic with tangy spices.",
+    restriction: "vegetarian",
+    flavor: "tangy",
+    mentalHealth: "Tomatoes are rich in lycopene, an antioxidant linked to reduced depression."
+  },
+  {
+    title: "Vegetarian Bland Pasta",
+    ingredients: ["Pasta", "Olive Oil", "Parmesan"],
+    instructions: "Cook pasta and mix with olive oil and parmesan for a bland dish.",
+    restriction: "vegetarian",
+    flavor: "bland",
+    mentalHealth: "Comfort food that promotes serotonin release and soothing effects."
+  },
+  {
+    title: "Vegetarian Savory Stuffed Mushrooms",
+    ingredients: ["Mushrooms", "Cheese", "Spinach", "Olive Oil"],
+    instructions: "Stuff mushrooms with cheese, spinach, and bake.",
+    restriction: "vegetarian",
+    flavor: "savory",
+    mentalHealth: "Mushrooms contain B vitamins and selenium for improved emotional balance."
+  },
+
+
+  // Gluten-Free Recipes
+  {
+    title: "Gluten-Free Spicy Quinoa",
+    ingredients: ["Quinoa", "Chili", "Tomatoes", "Garlic"],
+    instructions: "Cook quinoa with spicy seasoning.",
+    restriction: "gluten free",
+    flavor: "spicy",
+    mentalHealth: "Quinoa contains protein and iron to combat fatigue and brain fog."
+  },
+  {
+    title: "Gluten-Free Sweet Pancakes",
+    ingredients: ["Rice Flour", "Almond Milk", "Maple Syrup", "Berries"],
+    instructions: "Make pancakes with rice flour, and serve with maple syrup and berries.",
+    restriction: "gluten free",
+    flavor: "sweet",
+    mentalHealth: "Berries are high in antioxidants that protect brain cells and improve memory."
+  },
+  {
+    title: "Gluten-Free Tangy Lemon Cake",
+    ingredients: ["Rice Flour", "Lemon", "Eggs", "Sugar"],
+    instructions: "Make a gluten-free cake with lemon for a tangy kick.",
+    restriction: "gluten free",
+    flavor: "tangy",
+    mentalHealth: "Lemon supports serotonin production and gives a refreshing mental boost."
+  },
+  {
+    title: "Gluten-Free Bland Rice Pilaf",
+    ingredients: ["Rice", "Olive Oil", "Garlic"],
+    instructions: "Cook rice with olive oil and garlic for a simple, bland dish.",
+    restriction: "gluten free",
+    flavor: "bland",
+    mentalHealth: "A calming, low-stimulation meal for times of overwhelm or anxiety."
+  },
+  {
+    title: "Gluten-Free Savory Chicken Salad",
+    ingredients: ["Chicken", "Lettuce", "Olive Oil", "Tomatoes"],
+    instructions: "Mix chicken with savory vegetables.",
+    restriction: "gluten free",
+    flavor: "savory",
+    mentalHealth: "Lean protein helps regulate neurotransmitters linked to mood and motivation."
+  },
+
+
+  // Nut-Free Recipes
+  {
+    title: "Nut-Free Spicy Chicken Stir Fry",
+    ingredients: ["Chicken", "Broccoli", "Carrots", "Chili", "Garlic"],
+    instructions: "Stir fry chicken and vegetables with chili for spice.",
+    restriction: "nut free",
+    flavor: "spicy",
+    mentalHealth: "Spicy chicken may help improve circulation and reduce fatigue."
+  },
+  {
+    title: "Nut-Free Sweet Potato Mash",
+    ingredients: ["Sweet Potatoes", "Maple Syrup", "Cinnamon", "Olive Oil"],
+    instructions: "Mash sweet potatoes with maple syrup and cinnamon.",
+    restriction: "nut free",
+    flavor: "sweet",
+    mentalHealth: "Cinnamon and complex carbs may lower cortisol levels and elevate mood."
+  },
+  {
+    title: "Nut-Free Tangy Lemon Salad",
+    ingredients: ["Lemon", "Cucumber", "Tomatoes", "Olive Oil"],
+    instructions: "Toss salad with lemon dressing for a tangy flavor.",
+    restriction: "nut free",
+    flavor: "tangy",
+    mentalHealth: "Cucumber and lemon are refreshing and hydrating, promoting mental clarity."
+  },
+  {
+    title: "Nut-Free Bland Rice Porridge",
+    ingredients: ["Rice", "Water", "Salt"],
+    instructions: "Cook rice in water and salt for a bland dish.",
+    restriction: "nut free",
+    flavor: "bland",
+    mentalHealth: "Soothing and easy to digest—good for mental reset days."
+  },
+  {
+    title: "Nut-Free Savory Grilled Vegetables",
+    ingredients: ["Zucchini", "Bell Peppers", "Olive Oil", "Garlic"],
+    instructions: "Grill vegetables with savory olive oil and garlic.",
+    restriction: "nut free",
+    flavor: "savory",
+    mentalHealth: "Grilled veggies are rich in fiber and antioxidants to support a healthy gut-brain axis."
+  },
+
+
+  // Dairy-Free Recipes
+  {
+    title: "Dairy-Free Spicy Lentil Soup",
+    ingredients: ["Lentils", "Tomatoes", "Chili", "Garlic", "Olive Oil"],
+    instructions: "Simmer lentils with tomatoes and chili for a spicy soup.",
+    restriction: "dairy free",
+    flavor: "spicy",
+    mentalHealth: "Lentils are rich in folate and iron, aiding cognitive function and emotional regulation."
+  },
+  {
+    title: "Dairy-Free Sweet Mango Smoothie",
+    ingredients: ["Mango", "Almond Milk", "Honey"],
+    instructions: "Blend mango with almond milk and honey for a sweet smoothie.",
+    restriction: "dairy free",
+    flavor: "sweet",
+    mentalHealth: "Mangoes and honey naturally boost serotonin and energy levels."
+  },
+  {
+    title: "Dairy-Free Tangy Lemon Sorbet",
+    ingredients: ["Lemon", "Sugar", "Water"],
+    instructions: "Make sorbet by blending lemon juice with sugar and water.",
+    restriction: "dairy free",
+    flavor: "tangy",
+    mentalHealth: "Citrus refreshes the senses and may lift mental fatigue."
+  },
+  {
+    title: "Dairy-Free Bland Avocado Toast",
+    ingredients: ["Avocado", "Olive Oil", "Bread"],
+    instructions: "Toast bread and top with mashed avocado and olive oil.",
+    restriction: "dairy free",
+    flavor: "bland",
+    mentalHealth: "Avocados are rich in healthy fats and B vitamins that nourish the brain."
+  },
+  {
+    title: "Dairy-Free Savory Zucchini Noodles",
+    ingredients: ["Zucchini", "Garlic", "Olive Oil", "Tomatoes"],
+    instructions: "Sauté zucchini noodles with garlic and savory olive oil.",
+    restriction: "dairy free",
+    flavor: "savory",
+    mentalHealth: "Low-carb and high-antioxidant, this dish supports mental clarity and stable energy."
+  }
+];
+
+
+
+
+    const flavorTips = {
+      spicy: "Spicy foods can release endorphins and improve mood.",
+      sweet: "Sweet and creamy desserts can promote comfort and indulgence.",
+      tangy: "Tangy flavors can stimulate mental clarity and focus.",
+      bland: "Bland soups support digestion and a relaxed state of mind.",
+      savory: "Savory flavors provide grounding and comfort."
+    };
+
+
+    document.getElementById('recipe-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+
+      const diet = document.getElementById('dietInput').value;
+      const flavor = document.getElementById('flavorInput').value;
+      const recipe = recipes.find(r => r.restriction === diet && r.flavor === flavor);
+
+
+      const tip = flavorTips[flavor]; // Get the tip based on selected flavor
+
+
+      if (recipe) {
+        document.getElementById('recipe-details').innerHTML =
+          `<strong>${recipe.title}</strong><br>Ingredients: ${recipe.ingredients.join(", ")}<br>Instructions: ${recipe.instructions}`;
+        document.getElementById('recipe-box').style.display = 'block';
+
+
+        document.getElementById('mental-health-tip').textContent = tip;
+        document.getElementById('tip-box').style.display = 'block';
+      } else {
+        document.getElementById('recipe-box').style.display = 'none';
+        document.getElementById('tip-box').style.display = 'none';
+      }
+    });
+
+
+    // Dark mode toggle
+    const darkSwitch = document.getElementById('darkSwitch');
+    darkSwitch.addEventListener('change', function() {
+      document.body.classList.toggle('dark-mode');
+      darkSwitch.nextElementSibling.innerHTML = darkSwitch.checked
+        ? '<i class="bi bi-sun-fill"></i> Light Mode'
+        : '<i class="bi bi-moon-stars-fill"></i> Dark Mode';
+    });
+  </script>
+</body>
+</html>
+
+
+
